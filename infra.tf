@@ -1,16 +1,18 @@
 
+
 resource "azurerm_resource_group" "rg_nv" {
-  name     = "${var.env_name}-aks"
+  count = var.env_name == "nvlabs" ? 1 : 0
+  name     = "${var.env_name}"
   location = var.region
 }
 
 module "network" {
   source              = "Azure/network/azurerm"
   vnet_name           = "${var.env_name}-net"
-  resource_group_name = azurerm_resource_group.rg_nv.name
+  resource_group_name = var.env_name
   address_space       = var.az_net
   subnet_prefixes     = [var.az_subnet]
-  depends_on          = [azurerm_resource_group.rg_nv]
+  #depends_on          = [azurerm_resource_group.rg_nv]
 }
 
 # data "azuread_group" "aks_cluster_admins" {
@@ -20,7 +22,7 @@ module "network" {
 # Terraform AKS Module
 module "aks" {
   source                           = "Azure/aks/azurerm"
-  resource_group_name              = azurerm_resource_group.rg_nv.name
+  resource_group_name              = var.env_name
   prefix                           = var.env_name
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   os_disk_size_gb                  = 50
