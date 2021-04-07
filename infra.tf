@@ -2,7 +2,7 @@
 
 resource "azurerm_resource_group" "rg_nv" {
   count = var.env_name == "nvlabs" ? 1 : 0
-  name     = "${var.env_name}"
+  name     = var.env_name
   location = var.region
 }
 
