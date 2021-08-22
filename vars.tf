@@ -1,14 +1,14 @@
 # VARS
 #general
 variable "region" {
-    default = "eastus"
+    default = "westus"
 }
 variable "env_name" {
     default = "nvlabs"
 }
 
 variable "kubernetes_version" {
-  default = "1.18.10"
+  default = "1.18.17"
 }
 
 variable "num_nodes" {

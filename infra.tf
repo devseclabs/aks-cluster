@@ -23,7 +23,7 @@ module "network" {
 module "aks" {
   source                           = "Azure/aks/azurerm"
   resource_group_name              = var.env_name
-  prefix                           = var.env_name
+  prefix                           = "${var.env_name}-cluster"
   vnet_subnet_id                   = module.network.vnet_subnets[0]
   os_disk_size_gb                  = 50
   kubernetes_version               = var.kubernetes_version
